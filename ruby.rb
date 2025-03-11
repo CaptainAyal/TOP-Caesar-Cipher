@@ -1,16 +1,24 @@
 def caesar_cipher (string, shift)
-  puts string
-  puts shift
-
   #turn string to array and ordinal numbers
-  array = string.codepoints
-
+  
   #shift by shift value
-  shifted = array.map{|ord| ord + shift}
-  #map back to letters
-  back = shifted.map{|num| num.chr}
-  #join and output
-  puts back.join
+  array = string.codepoints.map do |ord| 
+  #check if shifted result still letter. If so shift
+    if (ord + shift).between?(65, 90) || (ord + shift).between?(97,122)
+      ord + shift
+  # check if original is letter, if so shift and wrap
+    elsif ord.between?(65, 90) || ord.between?(97,122)
+        (ord + shift) - 26
+  # no change for puncuation
+      else
+      ord 
+    end
+  end
+
+  
+  #map back to letters, join and output
+  puts array.map{|num| num.chr}.join
+
 end
 
   #get input string
@@ -22,5 +30,4 @@ shift_input = gets.to_i
 
   #run code
 caesar_cipher string_input, shift_input
-#   #need to fix for wrap around to non-letter chars
-#   #fix for punctuation
+
